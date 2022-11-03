@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ct="TFCountryTypes" xmlns:dec="TFDeclaration" xmlns:st="TFSimpleTypes" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="TFDeclaration" version="TFDeclaration_v1.01" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="TFSimpleTypes.xsd" namespace="TFSimpleTypes" />
+  <xs:import schemaLocation="TFCountryTypes.xsd" namespace="TFCountryTypes" />
+  <xs:annotation>
+    <xs:documentation>PVM gr????inimo u??sienio keleiviui deklaracija, kuri?? VMI teikia pardav??jai arba j?? tarpininkai.</xs:documentation>
+  </xs:annotation>
+  <xs:complexType name="DocHeader_Type">
+    <xs:annotation>
+      <xs:documentation>Dokument?? (deklaracij??) apib??dinantys (identifikuojantys) duomenys</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DocId" type="st:DocId_Type">
+        <xs:annotation>
+          <xs:documentation>Deklaracijos unikalus numeris</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DocCorrNo" type="st:DocCorrNo_Type">
+        <xs:annotation>
+          <xs:documentation>Deklaracijos unikalus numeris</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CompletionDate" type="st:RestrictedDate_Type">
+        <xs:annotation>
+          <xs:documentation>Deklaracijos pildymo data. Jei teikiama ta pati pakoreguota deklaracija, tai jos koregavimo data.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Affirmation">
+        <xs:annotation>
+          <xs:documentation>Patvirtiname, kad ??sitikinome, jog ??is pirk??jas turi teis?? naudotis TaxFree schema.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="1" />
+            <xs:enumeration value="Y" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SalesMan_Type">
+    <xs:annotation>
+      <xs:documentation>Pardav??j?? apib??dinantys duomenys</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="VatPayerCode" type="st:LtVatPayerCode_Type">
+        <xs:annotation>
+          <xs:documentation>Pardav??jo PVM mok??tojo kodas, suteiktas Lietuvoje.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Name" type="st:StringMin1Max300_Type">
+        <xs:annotation>
+          <xs:documentation>Pardav??jo pavadinimas</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IdentityDocument_Type">
+    <xs:annotation>
+      <xs:documentation>Asmens tapatyb?? patvirtinan??io dokumento duomenys.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DocType">
+        <xs:annotation>
+          <xs:documentation>Asmens tapatyb?? patvirtinan??io dokumento tipas. Galimos reik??m??s:  1 - Pasas, 2 - Asmens tapatyb??s kortel??.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="1" />
+            <xs:enumeration value="2" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="DocNo" type="st:IdDocNo_Type">
+        <xs:annotation>
+          <xs:documentation>Asmens tapatyb?? patvirtinan??io dokumento numeris (atribute nurodoma valstyb??, kurioje i??duotas dokumentas).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OtherDocument_Type">
+    <xs:annotation>
+      <xs:documentation>Dokumento, ??rodan??io, kad pirk??jo nuolatin?? gyvenamoji vieta n??ra Europos S??jungos teritorijoje, duomenys.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DocType" type="st:StringMin1Max100_Type">
+        <xs:annotation>
+          <xs:documentation>Dokumento, ??rodan??io, kad pirk??jo nuolatin?? gyvenamoji vieta n??ra Europos S??jungos teritorijoje, tipas.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DocNo" type="st:OtherDocNo_Type">
+        <xs:annotation>
+          <xs:documentation>Dokumento, ??rodan??io, kad pirk??jo nuolatin?? gyvenamoji vieta n??ra Europos S??jungos teritorijoje, numeris (atribute nurodoma valstyb??, kurioje i??duotas dokumentas).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Customer_Type">
+    <xs:annotation>
+      <xs:documentation>U??sienio keleivio (pirk??jo) duomen?? grup??</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="FirstName" type="st:StringMin1Max200_Type">
+        <xs:annotation>
+          <xs:documentation>Pirk??jo vardas</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LastName" type="st:StringMin1Max200_Type">
+        <xs:annotation>
+          <xs:documentation>Pirk??jo pavard??.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="PersonIn" type="st:PersonIn_Type">
+        <xs:annotation>
+          <xs:documentation>Pirk??jo asmens identifikacinis numeris u??sienio valstyb??je. Jeigu u??sienio keleivio valstyb?? netaiko asmens kodo sistemos ir keleivis jo negali pateikti, asmens kodas ne??ra??omas.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BirthDate" type="st:BirthDate_Type">
+        <xs:annotation>
+          <xs:documentation>Pirk??jo gimimo data.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IdentityDocument" type="dec:IdentityDocument_Type">
+        <xs:annotation>
+          <xs:documentation>Asmens tapatyb?? patvirtinan??io dokumento duomen?? grup??.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OtherDocument" type="dec:OtherDocument_Type">
+        <xs:annotation>
+          <xs:documentation>Dokumentas (-ai), ??rodantys, kad pirk??jas yra tre??ios valstyb??s gyventojas, jei asmens tapatyb??s dokumentas yra i??duotas ES ar Jungtin??s Karalyst??s arba kitais atvejais, jei pirk??jas pateikia tokius dokumentus. Jei asmens tapatyb?? patvirtinantis dokumentas yra i??duotas ES valstyb??je nar??je ar Jungtin??je Karalyst??je, tai kit?? dokument?? privaloma nurodyti.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:choice>
+        <xs:element name="ResCountryCode" type="ct:NonEuCountryCode_Type">
+          <xs:annotation>
+            <xs:documentation>Europos S??jungai nepriklausan??ios valstyb??s, kurioje yra pirk??jo nuolatin?? gyvenamoji vieta, kodas i?? dviej?? raid??i?? pagal ISO 3166-1 alpha 2 standart??, pavyzd??iui, UA ??? Ukraina.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ResTerritory">
+          <xs:annotation>
+            <xs:documentation>Europos S??jungai priklausan??ios teritorijos, kurioje yra pirk??jo nuolatin?? gyvenamoji vieta ir kuri PVM tikslais laikoma tre??i??ja teritorija, duomenys.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TerritoryCode" type="st:StringLength4_Type">
+                <xs:annotation>
+                  <xs:documentation>Europos S??jungai priklausan??ios teritorijos, kurioje yra pirk??jo nuolatin?? gyvenamoji vieta ir kuri PVM tikslais laikoma tre??i??ja teritorija, kodas.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TerritoryName" type="st:StringMin1Max200_Type">
+                <xs:annotation>
+                  <xs:documentation>Europos S??jungai priklausan??ios teritorijos, kurioje yra pirk??jo nuolatin?? gyvenamoji vieta ir kuri PVM tikslais laikoma tre??i??ja teritorija, pavadinimas i?? klasifikatoriaus, i?? kurio paimtas teritorijos kodas.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CashRegisterReceipt_Type">
+    <xs:annotation>
+      <xs:documentation>Kasos aparato kvit?? identifikuojantys duomenys.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CashRegisterNo" type="st:StringMin1Max50_Type">
+        <xs:annotation>
+          <xs:documentation>Kasos aparato numeris.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ReceiptNo" type="st:StringMin1Max70_Type">
+        <xs:annotation>
+          <xs:documentation>Kasos aparato kvito numeris.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GoodsItem_Type">
+    <xs:annotation>
+      <xs:documentation>Parduot?? prek?? apib??dinantys duomenys.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SequenceNo" type="st:SequenceNo_Type">
+        <xs:annotation>
+          <xs:documentation>Unikalus prek??s eil??s numeris deklaracijoje.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Description" type="st:StringMin1Max500_Type">
+        <xs:annotation>
+          <xs:documentation>Prek??s pavadinimas (apra??ymas). Pavadinimas turi b??ti toks, kad galima b??t?? tiksliai identifikuoti prek??.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Quantity" type="st:Quantity_Type">
+        <xs:annotation>
+          <xs:documentation>Prek??s kiekis.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:choice>
+        <xs:element name="UnitOfMeasureCode" type="st:StringLength3_Type">
+          <xs:annotation>
+            <xs:documentation>Matavimo vienetas turi nurodyti matavimo vieneto r??????: pvz., kg, vienetas ir pan. Nurodomas kodas i?? matavimo vienet?? klasifikatoriaus.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="UnitOfMeasureOther" type="st:StringMin1Max50_Type">
+          <xs:annotation>
+            <xs:documentation>Kitokio matavimo vieneto pavadinimas. Nurodomas, kai klasifikatoriuje n??ra tinkamos reik??m??s.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+      <xs:element name="TaxableAmount" type="st:Amount_Type">
+        <xs:annotation>
+          <xs:documentation>Kaina be PVM (Eur).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="VatRate" type="st:Percent_Type">
+        <xs:annotation>
+          <xs:documentation>PVM tarifas (procentais).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="VatAmount" type="st:Amount_Type">
+        <xs:annotation>
+          <xs:documentation>PVM suma (Eur).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TotalAmount" type="st:Amount_Type">
+        <xs:annotation>
+          <xs:documentation>Kaina su PVM (Eur).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SalesDocument_Type">
+    <xs:annotation>
+      <xs:documentation>Pardavimo dokumento duomenys.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="CashRegisterReceipt" type="dec:CashRegisterReceipt_Type">
+          <xs:annotation>
+            <xs:documentation>Kasos aparato kvit?? identifikuojantys duomenys.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="InvoiceNo" type="st:StringMin1Max70_Type">
+          <xs:annotation>
+            <xs:documentation>PVM s??skait?? ??? fakt??ros serija ir Nr. Rekomenduojama pildyti be jokio atskyrimo, tarpo, br??k??nelio ar kitoki?? ??enkl??.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+      <xs:element name="SalesDate" type="st:RestrictedDate_Type">
+        <xs:annotation>
+          <xs:documentation>Pardavimo data.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="Goods" type="dec:GoodsItem_Type">
+        <xs:annotation>
+          <xs:documentation>Parduot?? preki?? s??ra??as.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Intermediary_Type">
+    <xs:annotation>
+      <xs:documentation>Tarpininko duomenys</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IntermediaryIn" type="st:IntermediaryIn_Type">
+        <xs:annotation>
+          <xs:documentation>Tarpininko identifikacinis numeris: Lietuvos mokes??i?? mok??tojo identifikacinis numeris (kodas) MMR'e arba MMR kliento TIN arba Lietuvos gyventojo fizinio asmens individualios veiklos pa??ymos numeris.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Name" type="st:StringMin1Max300_Type">
+        <xs:annotation>
+          <xs:documentation>Tarpininko pavadinimas</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TFDeclaration_Type">
+    <xs:sequence>
+      <xs:element name="DocHeader" type="dec:DocHeader_Type" />
+      <xs:element name="Salesman" type="dec:SalesMan_Type" />
+      <xs:element name="Customer" type="dec:Customer_Type" />
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="SalesDocument" type="dec:SalesDocument_Type" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Intermediary" type="dec:Intermediary_Type" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Declaration" type="dec:TFDeclaration_Type" />
+</xs:schema>
